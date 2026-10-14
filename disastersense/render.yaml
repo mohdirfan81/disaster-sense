@@ -1,0 +1,28 @@
+# Render blueprint for DisasterSense — https://render.com/docs/blueprint-spec
+#
+# Deploy: Render Dashboard → New → Blueprint → connect this repo.
+# Render runs the app as a single long-lived Node process, so the in-memory
+# store behaves like it does locally (state persists until the instance
+# restarts or spins down). For durable data, swap in PostgreSQL behind
+# src/lib/db/repository.ts using sql/schema.sql.
+services:
+  - type: web
+    name: disastersense
+    runtime: node
+    plan: free
+    region: singapore
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "20.18.0"
+      # Optional: override the demo agent pacing (milliseconds).
+      - key: PIPELINE_STEP_DELAY_MS
+        value: "650"
+      - key: SIMULATION_REPORT_GAP_MS
+        value: "400"
+    # NEXT_PUBLIC_SITE_URL is optional — the app automatically uses
+    # RENDER_EXTERNAL_URL for metadata when it is not set.

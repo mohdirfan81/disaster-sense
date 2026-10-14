@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Surfaces - Google Material / Stitch-inspired light theme */
+  --color-base: #f8fafd;
+  --color-panel: #ffffff;
+  --color-raised: #f1f5f9;
+  --color-line: #e3e8ef;
+
+  /* Severity */
+  --color-critical: #dc2626;
+  --color-high: #ea580c;
+  --color-medium: #ca8a04;
+  --color-low: #16a34a;
+
+  /* Accent - Google Blue */
+  --color-accent: #1a73e8;
+  --color-accent-soft: rgba(26, 115, 232, 0.1);
+  --color-pink: #1a73e8;
+
+  /* Agent status */
+  --color-running: #1a73e8;
+  --color-done: #059669;
+  --color-review: #d97706;
+
+  /* Text */
+  --color-ink: #202124;
+  --color-muted: #5f6368;
+  --color-faint: #9aa0a6;
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--color-base);
+  color: var(--color-ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--color-accent) 0 0 0 2px, var(--color-base) 0 0 0 4px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: rgba(26, 115, 232, 0.2);
+}
+
+@layer utilities {
+  .scrollbar-slim {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  .scrollbar-slim::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-slim::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+  }
+}
+
+/* Leaflet light-theme adjustments (loaded only where the map mounts) */
+.leaflet-container {
+  background: #f8f9fa;
+  font: inherit;
+}
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: var(--color-muted) !important;
+  font-size: 10px !important;
+}
+.leaflet-control-attribution a {
+  color: var(--color-accent) !important;
+}
+.leaflet-bar a {
+  background: var(--color-panel) !important;
+  color: var(--color-ink) !important;
+  border-color: var(--color-line) !important;
+}
+.leaflet-bar a:hover {
+  background: var(--color-raised) !important;
+}

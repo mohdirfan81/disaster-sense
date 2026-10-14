@@ -1,0 +1,7 @@
+{
+  "css.validate": false,
+  "stylelint.validate": ["css", "scss"],
+  "eslint.useFlatConfig": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}
