@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 128" role="img" aria-label="DisasterSense">
+  <title>DisasterSense</title>
+  <!-- Black "D" with an open counter (the triangular hole) -->
+  <path d="M24 24 L44 24 C74 24 96 42 96 66 C96 90 74 108 44 108 L24 108 Z
+           M44 44 C64 44 78 53 78 66 C78 79 64 88 44 88 Z"
+        fill="#141414" fill-rule="evenodd" />
+  <!-- Red warning triangle sitting in the D's counter -->
+  <path d="M61 49 L75 83 L47 83 Z"
+        fill="#E01E26" stroke="#E01E26" stroke-width="4" stroke-linejoin="round" />
+  <!-- Exclamation mark knocked out of the triangle -->
+  <rect x="58.5" y="57" width="5" height="16" rx="2" fill="#ffffff" />
+  <circle cx="61" cy="79" r="2.8" fill="#ffffff" />
+  <!-- Angular red "S" to the right of the D -->
+  <path d="M120 48 H100 V61 L113 67 L100 74 V86 H120"
+        fill="none" stroke="#E01E26" stroke-width="14"
+        stroke-linejoin="miter" stroke-linecap="butt" />
+</svg>

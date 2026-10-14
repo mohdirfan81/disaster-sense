@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 268" role="img" aria-label="DisasterSense">
+  <title>DisasterSense — Disaster Response Multi-Agent System</title>
+
+  <!-- Monogram: D + warning triangle + S -->
+  <g transform="translate(92 4) scale(1.25)">
+    <path d="M24 24 L44 24 C74 24 96 42 96 66 C96 90 74 108 44 108 L24 108 Z
+             M44 44 C64 44 78 53 78 66 C78 79 64 88 44 88 Z"
+          fill="#141414" fill-rule="evenodd" />
+    <path d="M61 49 L75 83 L47 83 Z"
+          fill="#E01E26" stroke="#E01E26" stroke-width="4" stroke-linejoin="round" />
+    <rect x="58.5" y="57" width="5" height="16" rx="2" fill="#ffffff" />
+    <circle cx="61" cy="79" r="2.8" fill="#ffffff" />
+    <path d="M120 48 H100 V61 L113 67 L100 74 V86 H120"
+          fill="none" stroke="#E01E26" stroke-width="14"
+          stroke-linejoin="miter" stroke-linecap="butt" />
+  </g>
+
+  <!-- Wordmark -->
+  <text x="180" y="212" text-anchor="middle"
+        font-family="Roboto, 'Arial Black', Arial, Helvetica, sans-serif"
+        font-weight="900" font-size="46" letter-spacing="1" fill="#141414">DISASTER</text>
+  <text x="180" y="248" text-anchor="middle"
+        font-family="Roboto, Arial, Helvetica, sans-serif"
+        font-weight="700" font-size="28" letter-spacing="15" fill="#E01E26">SENSE</text>
+</svg>
