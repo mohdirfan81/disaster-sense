@@ -1,4 +1,4 @@
-import { withApi, jsonOk } from "@/lib/http";
+import { withDb, jsonOk } from "@/lib/http";
 import { reportCreateSchema } from "@/lib/validation";
 import * as repo from "@/lib/db/repository";
 import { runPipelineForReport } from "@/lib/agents/pipeline";
@@ -9,7 +9,7 @@ export const runtime = "nodejs";
 export const maxDuration = 30;
 
 /** POST /api/reports - citizen (or simulation) report intake, runs the agent pipeline. */
-export const POST = withApi(async (request: Request) => {
+export const POST = withDb(async (request: Request) => {
   const body = reportCreateSchema.parse(await request.json());
   const report = await repo.createReport(body);
   const incident = await runPipelineForReport(report);
@@ -31,7 +31,7 @@ export const POST = withApi(async (request: Request) => {
 });
 
 /** GET /api/reports - recent citizen reports. */
-export const GET = withApi(async () => {
+export const GET = withDb(async () => {
   const reports = await repo.listReports();
   return jsonOk({ items: reports.slice(0, 100), total: reports.length });
 });

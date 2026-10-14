@@ -1,4 +1,4 @@
-import { withApi, jsonOk, ApiError } from "@/lib/http";
+import { withDb, jsonOk, ApiError } from "@/lib/http";
 import { statusUpdateSchema } from "@/lib/validation";
 import * as repo from "@/lib/db/repository";
 import { getPipelineState } from "@/lib/agents/pipeline";
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 type Ctx = { params: Promise<{ incidentId: string }> };
 
 /** GET /api/incidents/{id} - full detail: incident + agent logs + pipeline state. */
-export const GET = withApi(async (_request: Request, ctx: Ctx) => {
+export const GET = withDb(async (_request: Request, ctx: Ctx) => {
   const { incidentId } = await ctx.params;
   const incident = await repo.getIncident(incidentId);
   if (!incident) throw new ApiError("not_found", "Incident not found.");
@@ -27,7 +27,7 @@ export const GET = withApi(async (_request: Request, ctx: Ctx) => {
 });
 
 /** PATCH /api/incidents/{id} - operator status change. */
-export const PATCH = withApi(async (request: Request, ctx: Ctx) => {
+export const PATCH = withDb(async (request: Request, ctx: Ctx) => {
   const { incidentId } = await ctx.params;
   const body = statusUpdateSchema.parse(await request.json());
   const incident = await repo.getIncident(incidentId);

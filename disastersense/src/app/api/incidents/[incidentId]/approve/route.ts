@@ -1,4 +1,4 @@
-import { withApi, jsonOk, ApiError } from "@/lib/http";
+import { withDb, jsonOk, ApiError } from "@/lib/http";
 import { approveSchema } from "@/lib/validation";
 import * as repo from "@/lib/db/repository";
 import { AGENT_LABELS } from "@/lib/config";
@@ -14,7 +14,7 @@ type Ctx = { params: Promise<{ incidentId: string }> };
  * active for reassessment. Nothing here contacts real services or notifies
  * responders - assignments are demo records only.
  */
-export const POST = withApi(async (request: Request, ctx: Ctx) => {
+export const POST = withDb(async (request: Request, ctx: Ctx) => {
   const { incidentId } = await ctx.params;
   const body = approveSchema.parse(await request.json());
   const incident = await repo.getIncident(incidentId);

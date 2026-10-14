@@ -4,10 +4,12 @@ DisasterSense is a Next.js 15 app. It deploys cleanly to any Node 20+ host.
 Two supported targets are configured in this repo: **Vercel** and **Render**.
 
 > ⚠️ **Read the persistence note below before choosing a host.**
-> The demo keeps all state in memory (`src/lib/db/store.ts`). It is only shared
-> within a **single long-running Node process**. That makes **Render the host
-> where the full demo works**, and Vercel a UI-only preview unless you add a
-> database.
+> The demo keeps all state in an in-memory singleton (`src/lib/db/store.ts`).
+> That state is only shared within a **single long-running Node process**. On
+> serverless hosts (Vercel) each request can hit a different instance, so you
+> **must connect a KV store** (see Option B) or reports won't persist across
+> requests. On Render the single long-lived instance keeps state in memory
+> without any extra setup.
 
 ---
 
@@ -45,17 +47,34 @@ npm start
 
 ## Option B — Vercel
 
-Vercel deploys the UI to a global edge, but the app runs as **serverless
-functions**, so the in-memory store is **not shared between requests** — a
-report created in one request will not appear in the next. Treat this
-deployment as a UI preview unless you plug in a database.
+Vercel runs the app as **serverless functions**, so the in-memory store is
+**not shared between requests**. To make the full demo work (reports persist and
+appear in the Government / Rescue / Admin views) you **must connect a Vercel KV
+store**, which injects `KV_REST_API_URL` + `KV_REST_API_TOKEN`. With those set,
+`src/lib/db/persistence.ts` snapshots the dataset to Redis on every DB-backed
+request so all instances share one state. Without a KV store, treat the Vercel
+deployment as a UI preview.
 
-### Deploy by importing the repo (recommended)
+### 1. Create and connect a KV store (required for persistence)
+
+1. In your Vercel project: **Storage → Create → KV** (Upstash Redis). Accept the
+   defaults and create it.
+2. **Connect** the store to the `disastersense` project. This automatically adds
+   `KV_REST_API_URL` and `KV_REST_API_TOKEN` to the project's environment
+   variables (Production, Preview and Development).
+3. **Redeploy** so the new env vars are picked up. After this, submitting a
+   report on `/report` shows up across all role views.
+
+> The KV REST API is called via `fetch`, so no new npm dependency is added and
+> the production build is unchanged. Persistence fails open: if Redis is briefly
+> unreachable the app keeps serving from the in-memory store instead of erroring.
+
+### 2. Deploy by importing the repo (recommended)
 
 1. Open <https://vercel.com/new> and import
    `nadirrrr070324/disastersense`.
-2. Accept the defaults. Next.js is auto-detected and no environment variables
-   are required.
+2. Accept the defaults. Next.js is auto-detected. No environment variables are
+   required to build; add the KV store (step 1) for durable data.
 
 ### Deploy with the CLI
 
@@ -94,13 +113,21 @@ dashboard instead.
 
 ## Environment variables
 
-All optional; the app runs with none set.
+The app runs with none set. On serverless hosts (Vercel) you **must** set the KV
+pair below so reports persist across requests.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | host URL / `http://localhost:3000` | Absolute URL for metadata |
 | `PIPELINE_STEP_DELAY_MS` | `650` | Delay between agent steps (`0` = instant) |
 | `SIMULATION_REPORT_GAP_MS` | `400` | Gap between generated simulation reports |
+| `KV_REST_API_URL` | — | Vercel KV / Upstash REST URL. **Required on Vercel** for persistence |
+| `KV_REST_API_TOKEN` | — | Vercel KV / Upstash token. **Required on Vercel** for persistence |
+
+`UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` are accepted as aliases.
+When the KV pair is present, `src/lib/db/persistence.ts` snapshots the dataset to
+Redis on every DB-backed request; when absent (local dev, tests, a single Render
+instance) persistence is a no-op and the app behaves as before.
 
 On Vercel the app falls back to `VERCEL_URL`; on Render to `RENDER_EXTERNAL_URL`.
 

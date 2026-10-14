@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { hydrate, persist } from "@/lib/db/persistence";
 
 /** Minimal API error contract shared by all routes. */
 
@@ -60,6 +61,27 @@ export function withApi<T extends unknown[]>(
       return await handler(...args);
     } catch (error) {
       return handleApiError(error);
+    }
+  };
+}
+
+/**
+ * Like withApi, but wraps a DB-backed route handler with the persistence
+ * lifecycle: hydrate the in-memory store from the shared KV snapshot before the
+ * handler runs, then persist it back afterwards if it changed. On hosts without
+ * KV configured (local dev, unit tests, a single Render instance) both hydrate
+ * and persist are no-ops, so behaviour is identical to withApi.
+ */
+export function withDb<T extends unknown[]>(
+  handler: (...args: T) => Promise<Response> | Response,
+) {
+  const wrapped = withApi(handler);
+  return async (...args: T): Promise<Response> => {
+    await hydrate();
+    try {
+      return await wrapped(...args);
+    } finally {
+      await persist();
     }
   };
 }

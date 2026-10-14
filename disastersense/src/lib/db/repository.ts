@@ -9,6 +9,7 @@ import type {
   User,
 } from "@/types/domain";
 import { getDb, resetDb, valuesOf } from "@/lib/db/store";
+import { markDirty } from "@/lib/db/persistence";
 import { buildSeedResources, DEMO_OPERATOR_ID, SEED_USERS } from "@/lib/db/seed-data";
 import { incidentCode, newId } from "@/lib/id";
 
@@ -78,6 +79,7 @@ export async function createReport(
     incidentId: null,
   };
   getDb().reports.set(report.id, report);
+  markDirty();
   return report;
 }
 
@@ -95,6 +97,7 @@ export async function updateReport(
   if (!report) return null;
   const next = { ...report, ...patch };
   getDb().reports.set(reportId, next);
+  markDirty();
   return next;
 }
 
@@ -146,6 +149,7 @@ export async function createIncident(
     ...input,
   };
   getDb().incidents.set(incident.id, incident);
+  markDirty();
   return incident;
 }
 
@@ -192,6 +196,7 @@ export async function appendAgentLog(log: Omit<AgentLog, "id" | "timestamp">): P
   const list = db.agentLogs.get(log.incidentId) ?? [];
   list.push(entry);
   db.agentLogs.set(log.incidentId, list);
+  markDirty();
   return entry;
 }
 
@@ -242,6 +247,7 @@ export async function assignResources(
       }
     }
   }
+  if (touched.length > 0) markDirty();
   return touched;
 }
 
@@ -250,6 +256,7 @@ export async function assignResources(
 export async function upsertCluster(cluster: Cluster): Promise<Cluster> {
   ensureSeeded();
   getDb().clusters.set(cluster.id, cluster);
+  markDirty();
   return cluster;
 }
 
@@ -265,6 +272,7 @@ export async function saveSituationReport(report: SituationReport): Promise<Situ
   const db = getDb();
   db.situationReports.unshift(report);
   db.situationReports = db.situationReports.slice(0, 20);
+  markDirty();
   return report;
 }
 
@@ -312,5 +320,6 @@ export async function updateIncident(
   if (!incident) return null;
   const next = { ...incident, ...patch, updatedAt: new Date().toISOString() };
   getDb().incidents.set(incidentId, next);
+  markDirty();
   return next;
 }
