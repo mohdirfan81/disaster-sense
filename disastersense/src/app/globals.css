@@ -3,32 +3,32 @@
 @tailwind utilities;
 
 :root {
-  /* Surfaces - Google Material / Stitch-inspired light theme */
-  --color-base: #f8fafd;
+  /* Surfaces — Google Material light theme */
+  --color-base: #f8f9fa;
   --color-panel: #ffffff;
-  --color-raised: #f1f5f9;
-  --color-line: #e3e8ef;
+  --color-raised: #f1f3f4;
+  --color-line: #e0e0e0;
 
-  /* Severity */
-  --color-critical: #dc2626;
-  --color-high: #ea580c;
-  --color-medium: #ca8a04;
-  --color-low: #16a34a;
+  /* Severity — Material red / orange / amber / green */
+  --color-critical: #d93025;
+  --color-high: #e8710a;
+  --color-medium: #f9ab00;
+  --color-low: #1e8e3e;
 
-  /* Accent - Google Blue */
+  /* Accent — Google Blue */
   --color-accent: #1a73e8;
+  --color-accent-hover: #1765cc;
   --color-accent-soft: rgba(26, 115, 232, 0.1);
-  --color-pink: #1a73e8;
 
   /* Agent status */
   --color-running: #1a73e8;
-  --color-done: #059669;
-  --color-review: #d97706;
+  --color-done: #1e8e3e;
+  --color-review: #e8710a;
 
-  /* Text */
+  /* Text — Google Grey scale */
   --color-ink: #202124;
   --color-muted: #5f6368;
-  --color-faint: #9aa0a6;
+  --color-faint: #80868b;
 }
 
 * {
@@ -45,13 +45,18 @@ body {
   background: var(--color-base);
   color: var(--color-ink);
   min-height: 100vh;
+  font-family: var(--font-roboto), "Roboto", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Roboto renders slightly small vs the old system stack; nudge for parity. */
+  letter-spacing: 0.01em;
 }
 
+/* Material focus indicator: a 2px accent ring offset from the surface. */
 :focus-visible {
   outline: none;
-  box-shadow: var(--color-accent) 0 0 0 2px, var(--color-base) 0 0 0 4px;
-  border-radius: 6px;
+  box-shadow: 0 0 0 2px var(--color-panel), 0 0 0 4px var(--color-accent);
+  border-radius: 8px;
 }
 
 ::selection {

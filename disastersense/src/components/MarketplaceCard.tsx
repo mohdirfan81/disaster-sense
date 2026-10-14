@@ -28,9 +28,9 @@ export function MarketplaceCard({
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, delay }}
       whileHover={{ scale: 1.02, y: -5 }}
-      className={`relative overflow-hidden rounded-2xl p-6 shadow-xl ${
+      className={`relative overflow-hidden rounded-lg p-6 shadow-panel ${
         gradient
-          ? "bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 text-white"
+          ? "bg-gradient-to-br from-accent to-accent-hover text-white"
           : "bg-panel border border-line"
       }`}
     >

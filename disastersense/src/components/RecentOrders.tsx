@@ -35,7 +35,7 @@ export function RecentOrders() {
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.4 }}
-      className="rounded-2xl border border-line bg-panel p-6 shadow-xl"
+      className="rounded-md border border-line bg-panel p-6 shadow-panel"
     >
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-bold text-ink">Recent Orders</h3>

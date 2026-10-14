@@ -21,10 +21,10 @@ export const SEVERITY_BADGE: Record<Severity, { label: string; classes: string; 
 };
 
 export const SEVERITY_HEX: Record<Severity, string> = {
-  critical: "#ef4444",
-  high: "#f97316",
-  medium: "#eab308",
-  low: "#22c55e",
+  critical: "#d93025",
+  high: "#e8710a",
+  medium: "#f9ab00",
+  low: "#1e8e3e",
 };
 
 export const STATUS_LABEL: Record<IncidentStatus, string> = {

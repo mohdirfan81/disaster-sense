@@ -1,6 +1,18 @@
 import type { Metadata, Viewport } from "next";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/app/providers";
+
+/**
+ * Google's signature typeface. Material Design uses Roboto across all surfaces;
+ * next/font self-hosts it at build time (no runtime request, no layout shift).
+ */
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  display: "swap",
+});
 
 /**
  * Absolute site URL for metadata/canonical links. Prefers an explicit
@@ -30,12 +42,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b0e14",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={roboto.variable}>
       <body className="font-sans antialiased">
         <a
           href="#main-content"
